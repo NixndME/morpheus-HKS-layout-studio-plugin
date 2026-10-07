@@ -12,6 +12,15 @@ It works offline. Clusters built from its layouts never need the internet.
 - Exports layouts to YAML. Several layouts come as a zip, one file each.
 - Restores a YAML or zip file. You see every change first. If it fails halfway, it is undone.
 
+## Walkthrough
+
+[![Walkthrough: from a built-in layout to a running cluster](https://github.com/NixndME/morpheus-HKS-layout-studio-plugin/releases/download/v0.1.42/hks-layout-studio-preview.gif)](https://github.com/NixndME/morpheus-HKS-layout-studio-plugin/releases/download/v0.1.42/hks-layout-studio-walkthrough.mp4)
+
+[Watch the full walkthrough (MP4, about 15 minutes)](https://github.com/NixndME/morpheus-HKS-layout-studio-plugin/releases/download/v0.1.42/hks-layout-studio-walkthrough.mp4):
+upload the plugin, download a built-in layout, upload it as a new layout, add Apache (YAML), Loki (Helm chart)
+and guestbook (GitHub), create a cluster from it in Infrastructure > Clusters, and see the add-ons running.
+The cluster install is shown in fast forward.
+
 ## Install
 
 1. Administration > Integrations > Plugins > Add, upload `morpheus-hks-layout-studio-plugin.jar`.
