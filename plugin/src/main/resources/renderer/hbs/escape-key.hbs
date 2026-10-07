@@ -1,0 +1,19 @@
+<script nonce="{{nonce}}">
+// HKS Layout Studio: Esc closes the open panel, a second Esc goes back to the layout list
+(function () {
+  if (window.hkslEsc) return;
+  window.hkslEsc = true;
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    var root = document.querySelector('.hksl');
+    if (!root) return;
+    var t = e.target;
+    var typing = t && (t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || (t.tagName === 'INPUT' && !/^(radio|checkbox|hidden|submit|button|file)$/i.test(t.type)));
+    if (typing) { t.blur(); return; }
+    var open = root.querySelector('input[name=hksl-card]:checked');
+    if (open && open.id !== 'hksl-none') { document.getElementById('hksl-none').checked = true; return; }
+    var back = root.querySelector('a.hksl-back');
+    if (back) window.location.href = back.href;
+  });
+})();
+</script>

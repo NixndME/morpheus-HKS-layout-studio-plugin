@@ -1,0 +1,447 @@
+<div class="hksl" id="hksl-top">
+<style>
+/* Morpheus 9 design tokens (--hpe-*) switch with light/dark mode; fallbacks keep older themes readable */
+.hksl{--t-text:var(--hpe-color-text-default,inherit);--t-strong:var(--hpe-color-text-strong,inherit);--t-weak:var(--hpe-color-text-weak,#7d8a94);
+ --t-line:var(--hpe-color-border-weak,rgba(125,138,148,.35));--t-line2:var(--hpe-color-border-default,rgba(125,138,148,.6));
+ --t-front:var(--hpe-color-background-front,transparent);--t-contrast:var(--hpe-color-background-contrast,rgba(125,138,148,.08));
+ --t-brand:var(--hpe-button-primary-rest-background,#008567);--t-onbrand:var(--hpe-button-primary-rest-textColor,#fff);
+ --t-primary-text:var(--hpe-color-text-primary,#008567);--t-crit:var(--hpe-color-border-critical,#cc1f1a);
+ --t-ok-bg:var(--hpe-color-background-ok,rgba(46,158,106,.15));--t-warn-bg:var(--hpe-color-background-warning,rgba(212,160,23,.18));
+ --t-crit-bg:var(--hpe-color-background-critical,rgba(208,70,79,.15));--t-info-bg:var(--hpe-color-background-info,rgba(47,127,193,.12));
+ --t-unknown-bg:var(--hpe-color-background-unknown,rgba(125,138,148,.12));
+ color:var(--t-text);font-size:14px;max-width:100%;overflow-x:hidden;margin-top:4px}
+.hksl .hksl-section h3{margin:0 0 6px;font-size:18px;font-weight:600;color:var(--t-strong);text-transform:none}
+.hksl .hksl-section h4{margin:18px 0 8px;font-size:14px;font-weight:600;color:var(--t-strong);text-transform:none}
+.hksl p{margin:0 0 10px}
+.hksl-muted{color:var(--t-weak)}
+.hksl p.hksl-intro{max-width:900px;margin:4px 0 20px}
+.hksl-section{padding:20px 22px;margin:0 0 20px;border:1px solid var(--t-line);border-radius:12px;background:var(--t-front)}
+.hksl-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:14px 0 0}
+.hksl-spacer{flex:1}
+.hksl form{margin:0}
+/* buttons: same size and shape as Morpheus' own pill buttons */
+.hksl .hksl-btn{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-width:96px;height:32px;padding:0 18px;margin:0;border-radius:9999px;border:1px solid transparent;
+ font:500 14px/1 inherit;text-transform:none;white-space:nowrap;cursor:pointer;text-decoration:none}
+.hksl .hksl-btn-primary{background:var(--t-brand);color:var(--t-onbrand);font-weight:600}
+.hksl .hksl-btn-primary:hover{filter:brightness(.92)}
+.hksl .hksl-btn-secondary{background:var(--hpe-button-secondary-rest-background,rgba(125,138,148,.12));color:var(--hpe-button-secondary-rest-textColor,var(--t-primary-text))}
+.hksl .hksl-btn-secondary:hover{background:var(--t-line)}
+.hksl .hksl-btn:disabled{opacity:.45;cursor:not-allowed}
+/* tables */
+.hksl-table{width:100%;border-collapse:collapse;margin:0}
+.hksl-table th{text-align:left;font-weight:600;font-size:13px;color:var(--t-strong);padding:8px 12px;border-bottom:1px solid var(--t-line2);white-space:nowrap;text-transform:none}
+.hksl-table td{padding:9px 12px;border-bottom:1px solid var(--t-line);vertical-align:middle}
+.hksl-table tbody tr:hover td{background:var(--t-contrast)}
+.hksl-table td.hksl-pick,.hksl-table th.hksl-pick{width:34px;padding-right:0}
+.hksl-table input[type=checkbox]{width:16px;height:16px;margin:0;accent-color:var(--t-brand);cursor:pointer}
+.hksl-table label{margin:0;font-weight:normal;cursor:pointer;display:block}
+.hksl-name{font-weight:600;color:var(--t-strong)}
+.hksl-desc{display:block;font-size:12px;color:var(--t-weak);font-weight:normal;margin-top:2px}
+.hksl-nowrap{white-space:nowrap}
+.hksl-empty{padding:16px;border:1px dashed var(--t-line2);border-radius:8px;color:var(--t-weak)}
+/* status chips */
+.hksl-chip{display:inline-block;min-width:64px;text-align:center;padding:2px 10px;border-radius:9999px;font-size:12px;font-weight:600;white-space:nowrap;color:var(--t-strong);border:1px solid transparent}
+.hksl-chip-create{background:var(--t-ok-bg);border-color:var(--hpe-color-decorative-brand,#01a982)}
+.hksl-chip-update{background:var(--t-warn-bg);border-color:var(--hpe-color-decorative-orange,#ffbc44)}
+.hksl-chip-reuse{background:var(--t-unknown-bg);border-color:var(--t-line2)}
+.hksl-chip-blocked{background:var(--t-crit-bg);border-color:var(--t-crit);color:var(--hpe-color-text-critical,#cc1f1a)}
+/* messages */
+.hksl-alert{padding:12px 16px;margin:0 0 20px;border-radius:8px;border-left:4px solid var(--t-line2);background:var(--t-info-bg);color:var(--t-strong)}
+.hksl-alert-success{background:var(--t-ok-bg);border-left-color:var(--hpe-color-decorative-brand,#01a982)}
+.hksl-alert-error{background:var(--t-crit-bg);border-left-color:var(--t-crit)}
+.hksl-alert-warn{background:var(--t-warn-bg);border-left-color:var(--hpe-color-decorative-orange,#ffbc44)}
+.hksl-list{margin:6px 0 0 18px;padding:0}
+.hksl-list li{margin:2px 0}
+/* click to open/close */
+.hksl details>summary{cursor:pointer;margin:16px 0 8px;font-weight:600;color:var(--t-strong);list-style:none;display:inline-flex;align-items:center;gap:6px}
+.hksl details>summary::-webkit-details-marker{display:none}
+.hksl details>summary::before{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform .15s}
+.hksl details[open]>summary::before{transform:rotate(45deg)}
+/* upload */
+.hksl-file{display:flex;flex-wrap:wrap;align-items:center;gap:14px}
+.hksl input[type=file]{color:var(--t-text);font-size:14px}
+.hksl input[type=file]::file-selector-button{height:32px;padding:0 18px;margin-right:12px;border-radius:9999px;border:1px solid transparent;cursor:pointer;
+ background:var(--hpe-button-secondary-rest-background,rgba(125,138,148,.12));color:var(--hpe-button-secondary-rest-textColor,var(--t-primary-text));font:500 14px inherit}
+.hksl-check{font-weight:normal;margin:0;display:inline-flex;align-items:center;gap:8px;cursor:pointer}
+.hksl-check input{width:16px;height:16px;margin:0;accent-color:var(--t-brand)}
+.hksl-kv{display:grid;grid-template-columns:150px 1fr;gap:6px 16px;margin:10px 0 14px}
+.hksl-kv span:nth-child(odd){color:var(--t-weak)}
+.hksl-scroll{max-height:480px;overflow:auto}
+.hksl-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+/* layout flow view */
+.hksl-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 6px}
+.hksl a.hksl-link{color:var(--t-strong);text-decoration:none}
+.hksl a.hksl-link:hover{color:var(--t-primary-text);text-decoration:underline}
+.hksl-back{color:var(--t-primary-text)!important;text-decoration:none;font-weight:500}
+.hksl-facts{display:flex;flex-wrap:wrap;gap:8px 22px;margin:8px 0 4px;color:var(--t-weak)}
+.hksl-facts b{color:var(--t-strong);font-weight:600}
+.hksl-legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--t-weak);margin:10px 0 0}
+.hksl-sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.hksl-radio{position:absolute;opacity:0;pointer-events:none;width:0;height:0}
+.hksl-flow{display:flex;align-items:stretch;gap:0;overflow-x:auto;padding:4px 2px 10px}
+.hksl-col{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:10px;padding:12px;border:1px solid var(--t-line);border-radius:10px;background:var(--t-contrast)}
+.hksl-col-wide{flex-basis:0}
+.hksl-col-form{flex-basis:142px}
+.hksl-k-group{border-left-color:var(--t-line2)!important}
+.hksl-field{padding:8px 0;border-bottom:1px solid var(--t-line)}
+.hksl-colhead{display:flex;align-items:center;gap:8px;font-weight:600;color:var(--t-strong)}
+.hksl-num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--t-brand);color:var(--t-onbrand);font-size:12px;font-weight:600}
+.hksl-sub{font-size:12px;color:var(--t-weak);margin-top:-6px}
+.hksl-arrow{flex:0 0 26px;position:relative;align-self:center;height:2px;background:var(--t-line2)}
+.hksl-arrow::after{content:"";position:absolute;right:-1px;top:-5px;border-left:8px solid var(--t-line2);border-top:6px solid transparent;border-bottom:6px solid transparent}
+.hksl-stage{display:flex;flex-direction:column;gap:6px}
+.hksl-stagetitle{font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--t-weak);text-transform:uppercase;margin-top:4px}
+.hksl label.hksl-card{display:flex;flex-direction:column;gap:2px;min-width:0;margin:0;padding:7px 10px;border:1px solid var(--t-line);border-left:4px solid var(--t-line2);border-radius:6px;background:var(--t-front);cursor:pointer;font-weight:normal}
+.hksl label.hksl-card:hover{border-color:var(--t-brand)}
+.hksl-k-script{border-left-color:#2f7fc1!important}.hksl-k-file{border-left-color:#8c6bc8!important}.hksl-k-addon{border-left-color:var(--hpe-color-decorative-brand,#01a982)!important}
+.hksl-sw-script{background:#2f7fc1}.hksl-sw-file{background:#8c6bc8}.hksl-sw-addon{background:var(--hpe-color-decorative-brand,#01a982)}
+.hksl-cardtop{display:flex;justify-content:space-between;gap:6px;font-size:11px;color:var(--t-weak)}
+.hksl-cardname{display:block;font-size:13px;font-weight:600;color:var(--t-strong);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hksl-tag{font-size:10px;padding:0 6px;border-radius:9999px;border:1px solid var(--t-line2);color:var(--t-weak);white-space:nowrap}
+.hksl-add{padding:6px 10px;border:1px dashed var(--t-line2);border-radius:6px;font-size:12px;color:var(--t-weak);text-align:center}
+.hksl-input{display:flex;justify-content:space-between;gap:6px;padding:5px 9px;border:1px solid var(--t-line);border-radius:6px;background:var(--t-front);font-size:12.5px;color:var(--t-strong)}
+.hksl-req{font-size:10px;color:var(--t-weak)}
+.hksl-nodetype{padding:7px 10px;border-radius:6px;background:var(--t-front);border:1px solid var(--t-line2);font-size:12.5px;color:var(--t-strong)}
+.hksl-drop{display:block;position:relative;padding:14px 10px;border:2px dashed var(--t-line2);border-radius:8px;text-align:center;font-size:12.5px;color:var(--t-weak);cursor:pointer}
+.hksl-drop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.hksl-drop b{display:block;color:var(--t-strong);margin-bottom:2px}
+.hksl-soon{font-size:11px;color:var(--t-weak);text-align:center}
+.hksl-panel{display:none;margin-top:14px;padding:16px 18px;border:1px solid var(--t-line);border-left:4px solid var(--t-brand);border-radius:10px;background:var(--t-front)}
+.hksl-panel .hksl-kv{grid-template-columns:150px 1fr}
+.hksl .hksl-pre{max-height:360px;overflow:auto;margin:8px 0 0!important;padding:12px 14px!important;border-radius:6px;background:#1f2428;color:#d6dde2;font:12px/1.45 var(--font-family-monospace,monospace);white-space:pre}
+.hksl-panelbar{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.hksl label.hksl-close{margin:0;font-weight:500;cursor:pointer;color:var(--t-primary-text)}
+.hksl-sw-step{background:#d36d00}.hksl-k-step{border-left-color:#d36d00!important}
+.hksl label.hksl-add{display:block;margin:0;cursor:pointer;font-weight:normal}
+.hksl label.hksl-add:hover{border-color:var(--t-brand);color:var(--t-strong)}
+.hksl label.hksl-drop{display:block;margin:0;font-weight:normal}
+.hksl-drop-big{padding:26px 12px!important;margin-bottom:12px!important}
+.hksl-headbar .hksl-head label.hksl-btn{margin:0}
+.hksl-form{margin-top:10px}
+.hksl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px 14px;margin:6px 0 10px}
+.hksl-grid label,.hksl label.hksl-block{display:flex;flex-direction:column;gap:4px;margin:0;font-weight:500;font-size:12.5px;color:var(--t-strong)}
+.hksl-grid label.hksl-wide{grid-column:1/-1}
+.hksl-grid input,.hksl-block textarea,.hksl-block select,.hksl-form textarea,.hksl-grid select{width:100%;box-sizing:border-box;padding:6px 9px;border:1px solid var(--t-line2);border-radius:6px;background:var(--t-front);color:var(--t-strong);font:inherit;font-weight:normal}
+.hksl-form textarea.hksl-code,.hksl-block textarea{font:12px/1.45 var(--font-family-monospace,monospace)}
+.hksl-row{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin:6px 0}
+.hksl-tabs{display:flex;gap:6px;margin:10px 0 4px;flex-wrap:wrap}
+.hksl-tabs label{margin:0;padding:6px 14px;border-radius:9999px;border:1px solid var(--t-line2);cursor:pointer;font-weight:500;color:var(--t-strong)}
+.hksl-tab-yaml,.hksl-tab-helm,.hksl-tab-git,.hksl-tab-have{display:none}
+#hksl-tab-yaml:checked ~ form.hksl-tab-yaml,#hksl-tab-helm:checked ~ form.hksl-tab-helm,#hksl-tab-git:checked ~ form.hksl-tab-git,#hksl-tab-have:checked ~ form.hksl-tab-have{display:block}
+#hksl-tab-yaml:checked ~ .hksl-tabs label[for=hksl-tab-yaml],#hksl-tab-helm:checked ~ .hksl-tabs label[for=hksl-tab-helm],#hksl-tab-git:checked ~ .hksl-tabs label[for=hksl-tab-git],#hksl-tab-have:checked ~ .hksl-tabs label[for=hksl-tab-have]{background:var(--t-brand);color:var(--t-onbrand);border-color:var(--t-brand)}
+.hksl details.hksl-inputs{margin:10px 0 0}.hksl details.hksl-inputs>summary{margin:0;font-weight:500;font-size:13px}
+.hksl-chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}.hksl-chips .hksl-input{display:inline-flex;gap:6px}
+/* dialogs over the flow, closed with Esc, Close, Cancel or a click outside */
+.hksl .hksl-panel{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2001;width:min(820px,92vw);max-height:86vh;overflow:auto;box-sizing:border-box;margin:0;box-shadow:0 12px 40px rgba(0,0,0,.35)}
+.hksl .hksl-confirm{width:min(460px,92vw);border-left-color:var(--t-crit)}
+.hksl label.hksl-backdrop{display:none;position:fixed;inset:0;z-index:2000;margin:0;background:rgba(0,0,0,.5);cursor:default}
+#hksl-none:not(:checked) ~ label.hksl-backdrop{display:block}
+.hksl-cardwrap{position:relative}
+.hksl label.hksl-cardx{position:absolute;right:8px;top:5px;margin:0;padding:1px 8px;border-radius:9999px;font-size:11px;font-weight:500;color:var(--t-crit);background:var(--t-front);border:1px solid var(--t-line2);cursor:pointer;opacity:.85}
+.hksl label.hksl-cardx:hover{opacity:1;border-color:var(--t-crit)}
+.hksl .hksl-btn-danger{background:var(--hpe-button-critical-rest-background,#cc1f1a);color:#fff;font-weight:600}
+.hksl-form-intro{margin:16px 0 16px}
+.hksl-form-intro h4{margin:0 0 8px!important}
+.hksl-formgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.hksl-formgroup{padding:10px 12px;border:1px solid var(--t-line);border-radius:8px;background:var(--t-contrast)}
+.hksl-field{display:flex;flex-direction:column;margin:6px 0 0}
+.hksl-fieldname{font-size:12.5px;font-weight:600;color:var(--t-strong)}
+.hksl-fieldhelp{font-size:12px;color:var(--t-weak)}
+/* input details: one even column per group, each with its own colour */
+.hksl-g-0{--g:#3b82c4}.hksl-g-1{--g:#7a6fd0}.hksl-g-2{--g:#c7881a}.hksl-g-3{--g:#2a9d8f}.hksl-g-4{--g:#c0567a}.hksl-g-5{--g:#6b7a89}
+.hksl-block{margin:16px 0 22px;padding:16px;border:1px solid var(--t-line);border-radius:10px;background:var(--t-contrast)}
+.hksl-blockhead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:0 0 12px}
+.hksl-blockhead h4{margin:0!important;font-size:15px!important}
+.hksl-block .hksl-blockhead{margin-bottom:14px}
+.hksl-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;align-items:stretch}
+.hksl-legend-flow{margin:-4px 0 12px}
+.hksl details.hksl-group{margin:0;border:1px solid var(--t-line);border-top:4px solid var(--g);border-radius:8px;background:var(--t-front);padding:0 10px 10px}
+.hksl details.hksl-group>summary{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0;padding:10px 0 8px;font-weight:600;color:var(--t-strong)}
+.hksl details.hksl-group>summary::before{order:2;margin-left:auto}
+.hksl-groupname{order:1}
+.hksl-groupcount{order:3;font-size:11px;font-weight:500;color:var(--g)}
+.hksl-fieldbox{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px;margin:8px 0 0;padding:8px 10px;border:1px solid var(--t-line);border-left:3px solid var(--g);border-radius:6px;background:var(--t-contrast)}
+.hksl-fieldbox .hksl-fieldname{font-size:12.5px;font-weight:600;color:var(--t-strong)}
+.hksl-fieldbox .hksl-req{margin-left:auto}
+.hksl-fieldbox .hksl-fieldhelp{flex-basis:100%;font-size:12px;color:var(--t-weak)}
+.hksl-restoreform{flex-basis:100%}
+</style>
+
+<p class="hksl-intro hksl-muted">Back up cluster layouts to a file. Restore them here or on another Morpheus.</p>
+
+{{#if message}}
+<div class="hksl-alert {{#if isError}}hksl-alert-error{{else}}{{#if isSuccess}}hksl-alert-success{{/if}}{{/if}}">
+  <b>{{message.text}}</b>
+  {{#if message.details}}<ul class="hksl-list">{{#each message.details}}<li>{{this}}</li>{{/each}}</ul>{{/if}}
+</div>
+{{/if}}
+{{#if error}}<div class="hksl-alert hksl-alert-error">{{error}}</div>{{/if}}
+
+{{#unless canExport}}
+<div class="hksl-empty">You need the HKS Layout Studio permission. Ask your admin.</div>
+{{else}}
+{{#if detail}}
+<style>{{#each detail.cards}}#hksl-{{key}}:checked ~ .hksl-panels .hksl-p-{{key}}{{#if xkey}},#hksl-{{xkey}}:checked ~ .hksl-panels .hksl-xp-{{xkey}}{{/if}}{display:block}#hksl-{{key}}:checked ~ .hksl-block label[for=hksl-{{key}}]{border-color:var(--t-brand);box-shadow:0 0 0 1px var(--t-brand)}{{/each}}</style>
+<div class="hksl-section">
+  {{#each detail.cards}}<input type="radio" name="hksl-card" id="hksl-{{key}}" class="hksl-radio">{{#if xkey}}<input type="radio" name="hksl-card" id="hksl-{{xkey}}" class="hksl-radio">{{/if}}{{/each}}
+  <input type="radio" name="hksl-card" id="hksl-none" class="hksl-radio" checked>
+  <label class="hksl-backdrop" for="hksl-none" aria-label="Close"></label>
+  <div class="hksl-headbar">
+    <a class="hksl-back" href="/plugin/hks-layout-studio/open?integrationId={{integrationId}}">Back to all layouts</a>
+    <div class="hksl-head" style="margin-top:10px"><h3 style="margin:0">{{detail.name}}</h3>{{#if detail.own}}<span class="hksl-tag">Your layout</span>{{else}}<span class="hksl-tag">Built-in, read only</span>{{/if}}
+      <span class="hksl-spacer"></span><label class="hksl-btn hksl-btn-secondary" for="hksl-{{detail.detailsPanel.key}}">{{#if detail.own}}Edit layout{{else}}Make an editable copy{{/if}}</label></div>
+    {{#if detail.description}}<p class="hksl-muted" style="margin:0">{{detail.description}}</p>{{/if}}
+    <div class="hksl-facts"><span>Kubernetes <b>{{detail.kube}}</b></span><span>OS <b>{{detail.os}}</b></span><span>Provision <b>{{detail.provision}}</b></span></div>
+  </div>
+  <div class="hksl-block">
+    <div class="hksl-blockhead"><h4>Input details</h4><span class="hksl-muted">What people fill in when they create a cluster from this layout</span></div>
+    <div class="hksl-groups">
+      {{#each detail.formGroups}}
+      <details class="hksl-group {{color}}">
+        <summary><span class="hksl-groupname">{{title}}</span><span class="hksl-groupcount">{{countLabel}}</span></summary>
+        {{#each items}}<div class="hksl-fieldbox"><span class="hksl-fieldname">{{label}}</span>{{#if required}}<span class="hksl-req">required</span>{{/if}}<span class="hksl-fieldhelp">{{help}}</span></div>{{/each}}
+      </details>
+      {{/each}}
+    </div>
+  </div>
+  <div class="hksl-block">
+  <div class="hksl-blockhead"><h4>How the cluster is built</h4><span class="hksl-muted">Left to right, in the order Morpheus runs it</span></div>
+  <div class="hksl-legend hksl-legend-flow"><span><i class="hksl-sw hksl-sw-script"></i>Script</span><span><i class="hksl-sw hksl-sw-file"></i>File</span><span><i class="hksl-sw hksl-sw-step"></i>Step for every node</span><span><i class="hksl-sw hksl-sw-addon"></i>Add-on</span><span>Click a card to see or change it. Esc closes.</span></div>
+  <div class="hksl-flow">
+    {{#each detail.lanes}}
+    {{#unless @first}}<div class="hksl-arrow"></div>{{/unless}}
+    <div class="hksl-col hksl-col-wide">
+      <div class="hksl-colhead"><span class="hksl-num">{{step}}</span>{{title}} nodes ({{count}})</div>
+      <div class="hksl-nodetype">Node type: {{nodeType}}</div>
+      {{#unless canAdd}}{{#if @root.detail.own}}<div class="hksl-sub" style="margin-top:0">Built-in node type. Add your steps under Extra steps.</div>{{/if}}{{/unless}}
+      {{#each stages}}
+      <div class="hksl-stage">
+        <div class="hksl-stagetitle">{{title}}</div>
+        {{#each steps}}
+        <div class="hksl-cardwrap{{#if xkey}} hksl-has-x{{/if}}"><label class="hksl-card hksl-k-{{kind}}" for="hksl-{{key}}"><span class="hksl-cardtop"><span>{{kindLabel}}{{#if builtin}}{{#if kindLabel}} · {{/if}}built-in{{/if}}</span></span><span class="hksl-cardname">{{name}}</span></label>{{#if xkey}}<label class="hksl-cardx" for="hksl-{{xkey}}">Remove</label>{{/if}}</div>
+        {{/each}}
+        {{#if adder}}<label class="hksl-add" for="hksl-{{adder.key}}">+ Add script or file</label>{{/if}}
+      </div>
+      {{/each}}
+    </div>
+    {{/each}}
+    {{#if detail.hasWorkflow}}
+    <div class="hksl-arrow"></div>
+    <div class="hksl-col hksl-col-wide">
+      <div class="hksl-colhead"><span class="hksl-num">{{detail.workflow.step}}</span>Extra steps</div>
+      <div class="hksl-sub">Run on every node, master and worker</div>
+      {{#each detail.workflow.stages}}
+      <div class="hksl-stage">
+        <div class="hksl-stagetitle">{{title}}</div>
+        {{#each steps}}
+        <div class="hksl-cardwrap{{#if xkey}} hksl-has-x{{/if}}"><label class="hksl-card hksl-k-step" for="hksl-{{key}}"><span class="hksl-cardtop"><span>{{kindLabel}}{{#if builtin}}{{#if kindLabel}} · {{/if}}built-in{{/if}}</span></span><span class="hksl-cardname">{{name}}</span></label>{{#if xkey}}<label class="hksl-cardx" for="hksl-{{xkey}}">Remove</label>{{/if}}</div>
+        {{/each}}
+        {{#if adder}}<label class="hksl-add" for="hksl-{{adder.key}}">+ Add step</label>{{/if}}
+      </div>
+      {{/each}}
+    </div>
+    {{/if}}
+    <div class="hksl-arrow"></div>
+    <div class="hksl-col">
+      <div class="hksl-colhead"><span class="hksl-num">{{detail.addonStep}}</span>Add-ons</div>
+      <div class="hksl-sub">Installed when all nodes are ready</div>
+      {{#each detail.addons}}
+      <div class="hksl-cardwrap{{#if xkey}} hksl-has-x{{/if}}"><label class="hksl-card hksl-k-addon" for="hksl-{{key}}"><span class="hksl-cardtop"><span>{{kindLabel}}{{#if builtin}}{{#if kindLabel}} · {{/if}}built-in{{/if}}</span></span><span class="hksl-cardname">{{name}}</span></label>{{#if xkey}}<label class="hksl-cardx" for="hksl-{{xkey}}">Remove</label>{{/if}}</div>
+      {{/each}}
+      {{#if detail.addonAdder}}<label class="hksl-drop" for="hksl-{{detail.addonAdder.key}}"><b>+ Add an add-on</b>YAML file, Helm chart or Git link</label>{{/if}}
+    </div>
+  </div>
+  </div>
+  <div class="hksl-panels">
+    {{#each detail.cards}}
+    <div class="hksl-panel hksl-p-{{key}}">
+      <div class="hksl-panelbar"><h4 style="margin:0">{{name}}</h4><label class="hksl-close" for="hksl-none">Close</label></div>
+      {{#if isForm}}
+        {{#if addStep}}
+        <form method="post" action="/plugin/hks-layout-studio/edit" enctype="multipart/form-data" class="hksl-form">
+          <input type="hidden" name="{{@root.csrf.param}}" value="{{@root.csrf.value}}"><input type="hidden" name="integrationId" value="{{@root.integrationId}}"><input type="hidden" name="layout" value="{{@root.detail.id}}"><input type="hidden" name="do" value="step-add"><input type="hidden" name="target" value="{{target}}"><input type="hidden" name="nodeTypeId" value="{{nodeTypeId}}"><input type="hidden" name="phase" value="{{phase}}">
+          {{#unless workflow}}<div class="hksl-row"><label class="hksl-check"><input type="radio" name="kind" value="script" checked> Script (runs)</label><label class="hksl-check"><input type="radio" name="kind" value="file"> File (written to the node)</label></div>{{/unless}}
+          <div class="hksl-grid"><label>Name<input type="text" name="name" required placeholder="For example: install monitoring agent"></label>
+          {{#unless workflow}}<label>File name, for files<input type="text" name="fileName" placeholder="agent.conf"></label><label>Folder, for files<input type="text" name="filePath" placeholder="/etc/agent"></label>{{/unless}}</div>
+          <label class="hksl-block">Content<textarea name="content" rows="8" placeholder="#!/bin/bash&#10;echo hello"></textarea></label>
+          <div class="hksl-row"><span class="hksl-muted">Or upload it:</span><input type="file" name="stepFile"></div>
+          <div class="hksl-bar"><button class="hksl-btn hksl-btn-primary" type="submit">Add</button><label class="hksl-btn hksl-btn-secondary" for="hksl-none">Cancel</label></div>
+        </form>
+        {{/if}}
+        {{#if addAddon}}
+        <input type="radio" name="hksl-tab" id="hksl-tab-yaml" class="hksl-radio" checked><input type="radio" name="hksl-tab" id="hksl-tab-helm" class="hksl-radio"><input type="radio" name="hksl-tab" id="hksl-tab-git" class="hksl-radio"><input type="radio" name="hksl-tab" id="hksl-tab-have" class="hksl-radio">
+        <div class="hksl-tabs"><label for="hksl-tab-yaml">YAML file</label><label for="hksl-tab-helm">Helm chart</label><label for="hksl-tab-git">Git link</label><label for="hksl-tab-have">Already in Morpheus</label></div>
+        <form method="post" action="/plugin/hks-layout-studio/edit" enctype="multipart/form-data" class="hksl-form hksl-tab-yaml">
+          <input type="hidden" name="{{@root.csrf.param}}" value="{{@root.csrf.value}}"><input type="hidden" name="integrationId" value="{{@root.integrationId}}"><input type="hidden" name="layout" value="{{@root.detail.id}}"><input type="hidden" name="do" value="addon-yaml">
+          <label class="hksl-drop hksl-drop-big"><input type="file" name="files" accept=".yaml,.yml" multiple required><b>Drop YAML files here</b>or click to choose. Example: an Apache web server.</label>
+          <div class="hksl-grid"><label>Name<input type="text" name="name" placeholder="apache"></label><label>Version<input type="text" name="version" placeholder="1.0"></label></div>
+          <div class="hksl-bar"><button class="hksl-btn hksl-btn-primary" type="submit">Add</button></div>
+        </form>
+        <form method="post" action="/plugin/hks-layout-studio/edit" enctype="multipart/form-data" class="hksl-form hksl-tab-helm">
+          <input type="hidden" name="{{@root.csrf.param}}" value="{{@root.csrf.value}}"><input type="hidden" name="integrationId" value="{{@root.integrationId}}"><input type="hidden" name="layout" value="{{@root.detail.id}}"><input type="hidden" name="do" value="addon-helm">
+          <label class="hksl-drop hksl-drop-big"><input type="file" name="chart" accept=".tgz,.tar.gz" required><b>Drop a Helm chart here (.tgz)</b>or click to choose. It is turned into plain YAML now, so clusters need no Helm.</label>
+          <div class="hksl-grid"><label>Values file, optional<input type="file" name="values" accept=".yaml,.yml"></label><label>Name<input type="text" name="name" placeholder="from the chart"></label><label>Version<input type="text" name="version" placeholder="from the chart"></label><label>Namespace<input type="text" name="namespace" placeholder="same as the name"></label></div>
+          <div class="hksl-bar"><button class="hksl-btn hksl-btn-primary" type="submit">Add</button></div>
+        </form>
+        <form method="post" action="/plugin/hks-layout-studio/edit" class="hksl-form hksl-tab-git">
+          <input type="hidden" name="{{@root.csrf.param}}" value="{{@root.csrf.value}}"><input type="hidden" name="integrationId" value="{{@root.integrationId}}"><input type="hidden" name="layout" value="{{@root.detail.id}}"><input type="hidden" name="do" value="addon-git">
+          <div class="hksl-grid"><label class="hksl-wide">Git or file link<input type="text" name="url" required placeholder="https://github.com/org/repo or https://git.example.com/app.yaml"></label>
+          <label>Branch or tag<input type="text" name="ref" placeholder="main"></label><label>Folder<input type="text" name="path" placeholder="deploy"></label>
+          <label>User, optional<input type="text" name="user" autocomplete="off"></label><label>Token or password, optional<input type="password" name="token" autocomplete="new-password"></label>
+          <label>Name<input type="text" name="name" placeholder="from the folder"></label><label>Version<input type="text" name="version" placeholder="1.0"></label><label>Namespace, for Helm<input type="text" name="namespace" placeholder="same as the name"></label></div>
+          <label class="hksl-block">Helm values, optional<textarea name="values" rows="4" placeholder="replicaCount: 2"></textarea></label>
+          <label class="hksl-check"><input type="checkbox" name="skipTls"> Skip the certificate check (internal Git with its own certificate)</label>
+          <p class="hksl-muted">It is fetched once now and saved in Morpheus. Clusters never need this link.</p>
+          <div class="hksl-bar"><button class="hksl-btn hksl-btn-primary" type="submit">Get and add</button></div>
+        </form>
+        <form method="post" action="/plugin/hks-layout-studio/edit" class="hksl-form hksl-tab-have">
+          <input type="hidden" name="{{@root.csrf.param}}" value="{{@root.csrf.value}}"><input type="hidden" name="integrationId" value="{{@root.integrationId}}"><input type="hidden" name="layout" value="{{@root.detail.id}}"><input type="hidden" name="do" value="addon-existing">
+          <label class="hksl-block">Add-on<select name="packageId">{{#each @root.detail.otherAddons}}<option value="{{id}}">{{name}}</option>{{/each}}</select></label>
+          <div class="hksl-bar"><button class="hksl-btn hksl-btn-primary" type="submit">Add</button></div>
+        </form>
+        {{/if}}
+        {{#if editDetails}}
+        <form method="post" action="/plugin/hks-layout-studio/edit" class="hksl-form">
+          <input type="hidden" name="{{@root.csrf.param}}" value="{{@root.csrf.value}}"><input type="hidden" name="integrationId" value="{{@root.integrationId}}"><input type="hidden" name="layout" value="{{@root.detail.id}}"><input type="hidden" name="do" value="details">
+          <div class="hksl-grid"><label class="hksl-wide">Name<input type="text" name="name" value="{{@root.detail.name}}" required></label>
+          <label class="hksl-wide">Description<input type="text" name="description" value="{{@root.detail.description}}"></label>
+          {{#each counts}}<label>{{title}} nodes<input type="number" name="count_{{role}}" value="{{count}}" min="1" max="50"></label>{{/each}}</div>
+          <div class="hksl-bar"><button class="hksl-btn hksl-btn-primary" type="submit">Save</button><label class="hksl-btn hksl-btn-secondary" for="hksl-none">Cancel</label></div>
+        </form>
+        {{/if}}
+        {{#if copyLayout}}
+        <form method="post" action="/plugin/hks-layout-studio/edit" class="hksl-form">
+          <input type="hidden" name="{{@root.csrf.param}}" value="{{@root.csrf.value}}"><input type="hidden" name="integrationId" value="{{@root.integrationId}}"><input type="hidden" name="layout" value="{{@root.detail.id}}"><input type="hidden" name="do" value="copy">
+          <p class="hksl-muted">Built-in layouts can not be changed. A copy keeps the Kubernetes version and add-ons, and you can change it.</p>
+          <div class="hksl-grid"><label class="hksl-wide">Name of the copy<input type="text" name="name" value="{{copyName}}" required></label></div>
+          <div class="hksl-bar"><button class="hksl-btn hksl-btn-primary" type="submit">Make a copy</button><label class="hksl-btn hksl-btn-secondary" for="hksl-none">Cancel</label></div>
+        </form>
+        {{/if}}
+      {{else}}
+        <div class="hksl-kv">{{#each facts}}<span>{{k}}</span><span>{{v}}</span>{{/each}}</div>
+        {{#if editable}}
+        <form method="post" action="/plugin/hks-layout-studio/edit" class="hksl-form">
+          <input type="hidden" name="{{@root.csrf.param}}" value="{{@root.csrf.value}}"><input type="hidden" name="integrationId" value="{{@root.integrationId}}"><input type="hidden" name="layout" value="{{@root.detail.id}}"><input type="hidden" name="do" value="step-save"><input type="hidden" name="target" value="{{#if workflow}}workflow{{else}}node{{/if}}"><input type="hidden" name="kind" value="{{kind}}"><input type="hidden" name="itemId" value="{{itemId}}">
+          <textarea name="content" rows="10" class="hksl-code">{{content}}</textarea>
+          <div class="hksl-bar"><button class="hksl-btn hksl-btn-primary" type="submit">Save</button></div>
+        </form>
+        {{else}}
+          {{#if content}}<pre class="hksl-pre">{{content}}</pre>{{/if}}
+        {{/if}}
+        {{#if hidden}}<p class="hksl-muted">Built-in. Morpheus does not show what is inside built-in scripts and files.</p>{{/if}}
+      {{/if}}
+    </div>
+    {{#if xkey}}
+    <div class="hksl-panel hksl-confirm hksl-xp-{{xkey}}">
+      <h4 style="margin:0 0 10px">Are you sure?</h4>
+      <p>{{confirm}}</p>
+        <form method="post" action="/plugin/hks-layout-studio/edit" class="hksl-form">
+          <input type="hidden" name="{{@root.csrf.param}}" value="{{@root.csrf.value}}"><input type="hidden" name="integrationId" value="{{@root.integrationId}}"><input type="hidden" name="layout" value="{{@root.detail.id}}"><input type="hidden" name="do" value="{{#if kindAddon}}addon-remove{{else}}step-remove{{/if}}"><input type="hidden" name="target" value="{{#if workflow}}workflow{{else}}node{{/if}}"><input type="hidden" name="kind" value="{{kind}}"><input type="hidden" name="itemId" value="{{itemId}}"><input type="hidden" name="nodeTypeId" value="{{nodeTypeId}}"><input type="hidden" name="packageId" value="{{itemId}}">
+          <div class="hksl-bar"><button class="hksl-btn hksl-btn-danger" type="submit">Yes, remove</button><label class="hksl-btn hksl-btn-secondary" for="hksl-none">Cancel</label></div>
+        </form>
+    </div>
+    {{/if}}
+    {{/each}}
+  </div>
+</div>
+{{else}}
+
+{{#if preview}}
+<div class="hksl-section">
+  <h3>Check before restore</h3>
+  <div class="hksl-kv">
+    <span>File</span><span>{{preview.fileName}}</span>
+    <span>Layouts</span><span>{{preview.layouts}}</span>
+    <span>Exported</span><span>{{preview.exportedAt}} by {{preview.exportedBy}}, Morpheus {{preview.morpheus}}</span>
+    <span>Existing items</span><span>{{#if preview.update}}Overwrite{{else}}Keep{{/if}}</span>
+    <span>Result</span><span><b>{{preview.summary}}</b></span>
+  </div>
+  <div class="hksl-scroll">
+  <table class="hksl-table">
+    <thead><tr><th>Action</th><th>Type</th><th>Name</th><th>Note</th></tr></thead>
+    <tbody>
+    {{#each preview.rows}}
+      <tr><td><span class="hksl-chip {{chip}}">{{label}}</span></td><td class="hksl-nowrap">{{kind}}</td><td class="hksl-name">{{name}}</td><td class="hksl-muted">{{detail}}</td></tr>
+    {{/each}}
+    </tbody>
+  </table>
+  </div>
+  {{#if preview.warnings}}<div class="hksl-alert hksl-alert-warn"><b>Please note</b><ul class="hksl-list">{{#each preview.warnings}}<li>{{this}}</li>{{/each}}</ul></div>{{/if}}
+  {{#if preview.notes}}<div class="hksl-alert"><b>Notes</b><ul class="hksl-list">{{#each preview.notes}}<li>{{this}}</li>{{/each}}</ul></div>{{/if}}
+  <div class="hksl-bar">
+    {{#if preview.blocked}}
+      <span class="hksl-muted">Fix the blocked items first. Nothing will change.</span>
+    {{else}}
+      <form method="post" action="/plugin/hks-layout-studio/restore" class="hksl-restoreform">
+        <input type="hidden" name="{{csrf.param}}" value="{{csrf.value}}"><input type="hidden" name="integrationId" value="{{integrationId}}">
+        <div class="hksl-grid">{{#each preview.names}}<label>Save as<input type="text" name="as_{{index}}" value="{{name}}" required></label>{{/each}}</div>
+        <p class="hksl-muted">Keep the name to restore it. Give a new name to make a new layout.</p>
+        <button class="hksl-btn hksl-btn-primary" type="submit">Restore</button>
+      </form>
+    {{/if}}
+    <form method="post" action="/plugin/hks-layout-studio/cancel">
+      <input type="hidden" name="{{csrf.param}}" value="{{csrf.value}}"><input type="hidden" name="integrationId" value="{{integrationId}}">
+      <button class="hksl-btn hksl-btn-secondary" type="submit">Cancel</button>
+    </form>
+  </div>
+</div>
+{{/if}}
+
+<div class="hksl-section">
+  <h3>Export</h3>
+  <p class="hksl-muted">Select layouts, then click Export. Several layouts come as a zip with one file each.</p>
+  <form method="get" action="/plugin/hks-layout-studio/export">
+    <input type="hidden" name="integrationId" value="{{integrationId}}">
+    <h4>Your layouts ({{ownCount}})</h4>
+    {{#if hasOwn}}
+    <table class="hksl-table">
+      <thead><tr><th class="hksl-pick"></th><th>Name</th><th>Type</th><th>Provision</th><th>Kubernetes</th><th>OS</th><th>Nodes</th></tr></thead>
+      <tbody>
+      {{#each ownLayouts}}
+        <tr><td class="hksl-pick"><input type="checkbox" name="id" value="{{id}}" id="hksl-own-{{id}}"></td>
+          <td><a class="hksl-name hksl-link" href="/plugin/hks-layout-studio/open?integrationId={{../integrationId}}&layout={{id}}">{{name}}</a><span class="hksl-desc">{{description}}</span></td>
+          <td>{{type}}</td><td>{{provision}}</td><td>{{kube}}</td><td>{{os}}</td><td class="hksl-nowrap">{{nodes}}</td></tr>
+      {{/each}}
+      </tbody>
+    </table>
+    {{else}}
+    <div class="hksl-empty">You have no layouts yet.</div>
+    {{/if}}
+    <details>
+      <summary>Built-in HKS layouts ({{builtinCount}})</summary>
+      <div class="hksl-scroll">
+      <table class="hksl-table">
+        <thead><tr><th class="hksl-pick"></th><th>Name</th><th>Provision</th><th>Kubernetes</th><th>OS</th><th>Nodes</th></tr></thead>
+        <tbody>
+        {{#each builtinLayouts}}
+          <tr><td class="hksl-pick"><input type="checkbox" name="id" value="{{id}}" id="hksl-bi-{{id}}"></td>
+            <td><a class="hksl-name hksl-link" href="/plugin/hks-layout-studio/open?integrationId={{../integrationId}}&layout={{id}}">{{name}}</a></td>
+            <td>{{provision}}</td><td>{{kube}}</td><td>{{os}}</td><td class="hksl-nowrap">{{nodes}}</td></tr>
+        {{/each}}
+        </tbody>
+      </table>
+      </div>
+    </details>
+    <div class="hksl-bar"><button class="hksl-btn hksl-btn-primary" type="submit">Export</button></div>
+  </form>
+</div>
+
+{{#if canImport}}
+<div class="hksl-section">
+  <h3>Restore</h3>
+  <p class="hksl-muted">Choose a backup file (YAML or zip) and click Preview. Nothing changes until you click Restore.</p>
+  <form method="post" action="/plugin/hks-layout-studio/preview" enctype="multipart/form-data">
+    <input type="hidden" name="{{csrf.param}}" value="{{csrf.value}}"><input type="hidden" name="integrationId" value="{{integrationId}}">
+    <div class="hksl-file">
+      <input type="file" name="file" accept=".yaml,.yml,.json,.zip" required>
+      <label class="hksl-check"><input type="checkbox" name="update"> Overwrite items that already exist</label>
+      <span class="hksl-spacer"></span>
+      <button class="hksl-btn hksl-btn-primary" type="submit">Preview</button>
+    </div>
+  </form>
+</div>
+{{/if}}
+
+{{/if}}
+{{/unless}}
+</div>

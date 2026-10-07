@@ -1,0 +1,8 @@
+plugin/build/
+plugin/.gradle/
+plugin/helm-res/
+.gradle/
+*.class
+*.jar
+.idea/
+*.iml
