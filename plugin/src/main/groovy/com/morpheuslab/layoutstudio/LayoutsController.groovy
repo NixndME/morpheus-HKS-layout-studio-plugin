@@ -169,7 +169,8 @@ class LayoutsController implements PluginController {
     }
 
     private Map doEdit(String what, Object req, Long id, Map layout, SelfApi api, LayoutEditor ed, Steps steps) {
-        Closure<String> param = { String n -> (req.getParameter(n) ?: '').toString() }
+        // Browsers send text boxes with \r\n; scripts must have Linux line endings
+        Closure<String> param = { String n -> (req.getParameter(n) ?: '').toString().replace('\r\n', '\n').replace('\r', '\n') }
         Closure<Long> num = { String n -> param(n).isLong() ? param(n) as Long : null }
         switch (what) {
             case 'details':

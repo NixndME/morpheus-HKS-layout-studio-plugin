@@ -123,6 +123,8 @@
 .hksl-grid label.hksl-wide{grid-column:1/-1}
 .hksl-grid input,.hksl-block textarea,.hksl-block select,.hksl-form textarea,.hksl-grid select{width:100%;box-sizing:border-box;padding:6px 9px;border:1px solid var(--t-line2);border-radius:6px;background:var(--t-front);color:var(--t-strong);font:inherit;font-weight:normal}
 .hksl-form textarea.hksl-code,.hksl-block textarea{font:12px/1.45 var(--font-family-monospace,monospace)}
+.hksl textarea{overflow:auto!important;resize:vertical;overscroll-behavior:contain}
+.hksl textarea.hksl-code{min-height:240px;max-height:60vh}
 .hksl-row{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin:6px 0}
 .hksl-tabs{display:flex;gap:6px;margin:10px 0 4px;flex-wrap:wrap}
 .hksl-tabs label{margin:0;padding:6px 14px;border-radius:9999px;border:1px solid var(--t-line2);cursor:pointer;font-weight:500;color:var(--t-strong)}
@@ -132,7 +134,7 @@
 .hksl details.hksl-inputs{margin:10px 0 0}.hksl details.hksl-inputs>summary{margin:0;font-weight:500;font-size:13px}
 .hksl-chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}.hksl-chips .hksl-input{display:inline-flex;gap:6px}
 /* dialogs over the flow, closed with Esc, Close, Cancel or a click outside */
-.hksl .hksl-panel{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2001;width:min(820px,92vw);max-height:86vh;overflow:auto;box-sizing:border-box;margin:0;box-shadow:0 12px 40px rgba(0,0,0,.35)}
+.hksl .hksl-panel{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2001;width:min(820px,92vw);max-height:86vh;overflow:auto;overscroll-behavior:contain;box-sizing:border-box;margin:0;box-shadow:0 12px 40px rgba(0,0,0,.35)}
 .hksl .hksl-confirm{width:min(460px,92vw);border-left-color:var(--t-crit)}
 .hksl label.hksl-backdrop{display:none;position:fixed;inset:0;z-index:2000;margin:0;background:rgba(0,0,0,.5);cursor:default}
 #hksl-none:not(:checked) ~ label.hksl-backdrop{display:block}

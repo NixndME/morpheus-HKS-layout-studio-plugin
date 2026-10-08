@@ -92,7 +92,7 @@ workflows:
 - Restore needs the same Morpheus version. Built-in items must exist there.
 - Charts that read the live cluster (Helm `lookup`) get a warning; those parts are empty.
 - Step names must be unique in Morpheus. A taken name gets a number, like "write marker 2".
-- Tested on Morpheus 9.0.2 with HKS 1.35 manual layouts.
+- Tested on Morpheus 9.0.2 and 9.1.0 with HKS 1.35 manual layouts.
 
 ## Build
 
