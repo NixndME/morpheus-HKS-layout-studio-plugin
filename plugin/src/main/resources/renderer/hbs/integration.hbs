@@ -191,7 +191,7 @@
   <div class="hksl-headbar">
     <a class="hksl-back" href="/plugin/hks-layout-studio/open?integrationId={{integrationId}}">Back to all layouts</a>
     <div class="hksl-head" style="margin-top:10px"><h3 style="margin:0">{{detail.name}}</h3>{{#if detail.own}}<span class="hksl-tag">Your layout</span>{{else}}<span class="hksl-tag">Built-in, read only</span>{{/if}}
-      <span class="hksl-spacer"></span><label class="hksl-btn hksl-btn-secondary" for="hksl-{{detail.detailsPanel.key}}">{{#if detail.own}}Edit layout{{else}}Make an editable copy{{/if}}</label></div>
+      <span class="hksl-spacer"></span><label class="hksl-btn hksl-btn-secondary" for="hksl-{{detail.detailsPanel.key}}">{{#if detail.own}}Edit layout{{else}}Make an editable copy{{/if}}</label>{{#if detail.deletePanel}}<label class="hksl-btn hksl-btn-danger" for="hksl-{{detail.deletePanel.key}}">Delete layout</label>{{/if}}</div>
     {{#if detail.description}}<p class="hksl-muted" style="margin:0">{{detail.description}}</p>{{/if}}
     <div class="hksl-facts"><span>Kubernetes <b>{{detail.kube}}</b></span><span>OS <b>{{detail.os}}</b></span><span>Provision <b>{{detail.provision}}</b></span></div>
   </div>
@@ -256,7 +256,7 @@
   </div>
   <div class="hksl-panels">
     {{#each detail.cards}}
-    <div class="hksl-panel hksl-p-{{key}}">
+    <div class="hksl-panel hksl-p-{{key}}{{#if deleteLayout}} hksl-confirm{{/if}}">
       <div class="hksl-panelbar"><h4 style="margin:0">{{name}}</h4><label class="hksl-close" for="hksl-none">Close</label></div>
       {{#if isForm}}
         {{#if addStep}}
@@ -310,6 +310,19 @@
           {{#each counts}}<label>{{title}} nodes<input type="number" name="count_{{role}}" value="{{count}}" min="1" max="50"></label>{{/each}}</div>
           <div class="hksl-bar"><button class="hksl-btn hksl-btn-primary" type="submit">Save</button><label class="hksl-btn hksl-btn-secondary" for="hksl-none">Cancel</label></div>
         </form>
+        {{/if}}
+        {{#if deleteLayout}}
+        {{#if inUse}}
+          <p>This layout can not be deleted. It is used by <b>{{usedBy}}</b>. Delete that cluster first.</p>
+          <div class="hksl-bar"><label class="hksl-btn hksl-btn-secondary" for="hksl-none">Close</label></div>
+        {{else}}
+        <form method="post" action="/plugin/hks-layout-studio/edit" class="hksl-form">
+          <input type="hidden" name="{{@root.csrf.param}}" value="{{@root.csrf.value}}"><input type="hidden" name="integrationId" value="{{@root.integrationId}}"><input type="hidden" name="layout" value="{{@root.detail.id}}"><input type="hidden" name="do" value="delete">
+          <p>Delete <b>{{@root.detail.name}}</b>? This can not be undone. Export it first if you may need it again.</p>
+          <label class="hksl-check"><input type="checkbox" name="withParts" checked> Also delete its own node types, scripts, files and extra steps, if no other layout uses them</label>
+          <div class="hksl-bar"><button class="hksl-btn hksl-btn-danger" type="submit">Yes, delete</button><label class="hksl-btn hksl-btn-secondary" for="hksl-none">Cancel</label></div>
+        </form>
+        {{/if}}
         {{/if}}
         {{#if copyLayout}}
         <form method="post" action="/plugin/hks-layout-studio/edit" class="hksl-form">

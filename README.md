@@ -9,6 +9,7 @@ It works offline. Clusters built from its layouts never need the internet.
 - Changes your own layouts: name, description, node counts, scripts and files, extra steps, add-ons.
 - Adds add-ons from a YAML file, a Helm chart or a Git link. They are saved in Morpheus.
 - Makes an editable copy of a built-in HKS layout. The copy keeps the Kubernetes version and add-ons.
+- Deletes your own layouts, and if you want, their own node types, scripts, files and extra steps.
 - Exports layouts to YAML. Several layouts come as a zip, one file each.
 - Restores a YAML or zip file. You see every change first. If it fails halfway, it is undone.
 
@@ -35,6 +36,8 @@ Open Administration > Integrations > HKS Layout Studio.
 
 - Click a layout name to open its flow. Esc closes a card, a second Esc goes back.
 - Built-in layouts are read only. Use "Make an editable copy".
+- "Delete layout" removes one of your own layouts. A layout that a cluster uses can not be deleted.
+  Parts that another layout still uses always stay.
 - "+ Add script or file" adds a step to your own node type.
 - Built-in node types can not take extra scripts in Morpheus. Use "Extra steps": they run on every node.
 - "+ Add an add-on":

@@ -142,7 +142,7 @@ class LayoutsController implements PluginController {
         backTo(model)
     }
 
-    /** Every change to a layout: details, add-ons, steps, copy. Only your own layouts can be changed. */
+    /** Every change to a layout: details, add-ons, steps, copy, delete. Only your own layouts can be changed. */
     def edit(ViewModel<Map> model) {
         def req = model.request
         if (!post(req) || !Access.canImport(model.user)) return denied(model, 'edit')
@@ -165,6 +165,7 @@ class LayoutsController implements PluginController {
         }
         log.info("HKS Layout Studio: ${model.user?.username} ${what} on layout ${id}: ${r.error ?: 'ok'}")
         if (r.open) st.open(r.open as Long)
+        if (r.close) st.open(null)
         r.error ? back(model, 'error', r.error as String) : back(model, 'success', r.ok as String, (r.lines ?: []) as List<String>)
     }
 
@@ -177,6 +178,9 @@ class LayoutsController implements PluginController {
                 Map<String, Integer> counts = ['master', 'worker'].findAll { param("count_${it}").isInteger() }.collectEntries { [(it): param("count_${it}") as Integer] }
                 if (counts.values().any { it < 1 || it > 50 }) return [error: 'Node counts must be between 1 and 50.']
                 return wrap(ed.details(id, param('name'), param('description'), counts), 'Layout saved.')
+            case 'delete':
+                Map del = new LayoutRemover(api: api).remove(id, param('withParts') == 'on')
+                return del.error ? del : del + [close: true]
             case 'copy':
                 String name = param('name').trim() ?: "${layout.name} copy"
                 Map c = ed.copy(id, name)

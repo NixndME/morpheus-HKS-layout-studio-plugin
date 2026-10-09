@@ -12,7 +12,7 @@ class LayoutDetail {
     Map workflow           // extra steps for every node, or null
     List<Map> addons = []
     List<Map> otherAddons = []
-    Map addonAdder, detailsPanel
+    Map addonAdder, detailsPanel, deletePanel
     List<Map> cards = []   // every clickable card, for the detail panels
 
     /** Plain help for the fields Morpheus asks when a cluster is created: field name to [group, help]. */
@@ -114,6 +114,8 @@ class LayoutDetail {
         d.detailsPanel = d.own ? d.adder('editDetails', 'Edit layout', [counts: d.lanes.collect { [role: it.role, title: it.title, count: it.count] }])
                                 : d.adder('copyLayout', 'Make an editable copy', [copyName: "${d.name} copy".toString()])
         if (d.own) {
+            List<String> using = new LayoutRemover(api: api).clustersUsing(id)
+            d.deletePanel = d.adder('deleteLayout', 'Delete layout', [usedBy: using.join(', '), inUse: !using.isEmpty()])
             d.otherAddons = Catalog.list(api, '/api/library/cluster-packages', 'clusterPackages')
                 .findAll { it.enabled != false && !((it.id as Long) in pkgIds) }.sort { it.name }.collect { [id: it.id, name: it.name] }
         }
